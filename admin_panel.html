@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Roblox Studio Giveaways</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b00;
+            --primary-hover: #e05d00;
+            --secondary-color: #00a8ff;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --featured-color: #ffc107;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #6c757d;
+            --border-color: #e0e0e0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #16213e 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo-text span {
+            color: var(--primary-color);
+        }
+        
+        .back-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .back-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Admin Content */
+        .admin-content {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .admin-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--dark-color);
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Products Table */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .products-table th, 
+        .products-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .products-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .products-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .product-image-small {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-edit {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-edit:hover {
+            background-color: #0095e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-delete {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-featured {
+            background-color: var(--featured-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-featured:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-create {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-create:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Create/Edit Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            min-height: 120px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            resize: vertical;
+        }
+        
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            background-color: white;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+        }
+        
+        .form-file {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            background-color: white;
+        }
+        
+        .form-file:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+        }
+        
+        .file-requirements {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .preview-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cancel-btn {
+            background-color: var(--error-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .products-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .admin-content {
+                padding: 20px;
+            }
+            
+            .admin-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .submit-btn, .cancel-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-cube logo-icon"></i>
+                    <div class="logo-text">Roblox <span>Studio Giveaways</span></div>
+                </a>
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Store
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="admin-content">
+            <h1 class="admin-title">Admin Panel</h1>
+            
+            <div id="alert-message"></div>
+            
+            <button id="create-product-btn" class="btn btn-create">
+                <i class="fas fa-plus"></i> Create New Place
+            </button>
+            
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Downloads</th>
+                        <th>Rating</th>
+                        <th>Featured</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="products-table-body">
+                    <!-- Products will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Create/Edit Product Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Create New Place</h2>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                
+                <div class="form-group">
+                    <label for="product-name" class="form-label">Place Name</label>
+                    <input type="text" id="product-name" class="form-input" placeholder="Enter place name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-description" class="form-label">Description</label>
+                    <textarea id="product-description" class="form-textarea" placeholder="Enter place description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-category" class="form-label">Category</label>
+                    <select id="product-category" class="form-select" required>
+                        <option value="">Select a category</option>
+                        <option value="Game">Game</option>
+                        <option value="Model">Model</option>
+                        <option value="Building">Building</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-image" class="form-label">Thumbnail Image</label>
+                    <input type="file" id="product-image" class="form-file" accept="image/*" required>
+                    <div class="file-requirements">Recommended size: 800x600px</div>
+                    <div class="preview-container">
+                        <img id="product-image-preview" class="preview-image" src="#" alt="Image preview" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-file" class="form-label">Roblox Place File (.rbxl)</label>
+                    <input type="file" id="product-file" class="form-file" accept=".rbxl" required>
+                    <div class="file-requirements">Only .rbxl files are accepted</div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="product-featured" class="checkbox-input">
+                    <label for="product-featured" class="checkbox-label">Feature this place on the homepage</label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="cancel-btn" class="cancel-btn">Cancel</button>
+                    <button type="button" id="submit-btn" class="submit-btn">
+                        <span id="submit-spinner" class="loading" style="display: none;"></span>
+                        <span id="submit-text">Create Place</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const createProductBtn = document.getElementById('create-product-btn');
+            const productsTableBody = document.getElementById('products-table-body');
+            const productModal = document.getElementById('product-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const productForm = document.getElementById('product-form');
+            const alertMessage = document.getElementById('alert-message');
+            
+            // Form Elements
+            const productIdInput = document.getElementById('product-id');
+            const productNameInput = document.getElementById('product-name');
+            const productDescInput = document.getElementById('product-description');
+            const productCategoryInput = document.getElementById('product-category');
+            const productImageInput = document.getElementById('product-image');
+            const productFileInput = document.getElementById('product-file');
+            const productFeaturedInput = document.getElementById('product-featured');
+            const productImagePreview = document.getElementById('product-image-preview');
+            
+            // Global Variables
+            let products = [];
+            let isEditMode = false;
+            
+            // Initialize
+            loadProducts();
+            initEventListeners();
+            
+            // Load products
+            async function loadProducts() {
+                try {
+                    const response = await fetch('/get_products');
+                    if (!response.ok) throw new Error('Failed to load products');
+                    
+                    products = await response.json();
+                    renderProductsTable();
+                } catch (error) {
+                    console.error('Error loading products:', error);
+                    showAlert('Error loading products. Please try again.', 'error');
+                }
+            }
+            
+            // Render products table
+            function renderProductsTable() {
+                productsTableBody.innerHTML = products.map(product => `
+                    <tr data-id="${product.id}">
+                        <td><img src="${product.image}" class="product-image-small" alt="${product.name}"></td>
+                        <td>${product.name}</td>
+                        <td>${product.category || 'Uncategorized'}</td>
+                        <td>${product.download_count || 0}</td>
+                        <td>${product.average_rating?.toFixed(1) || 'N/A'}</td>
+                        <td>${product.is_featured ? 'Yes' : 'No'}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-edit edit-btn" data-id="${product.id}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-delete delete-btn" data-id="${product.id}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <button class="btn btn-featured featured-btn" data-id="${product.id}">
+                                <i class="fas fa-star"></i> ${product.is_featured ? 'Unfeature' : 'Feature'}
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            
+            // Initialize event listeners
+            function initEventListeners() {
+                // Create product button
+                createProductBtn.addEventListener('click', openCreateModal);
+                
+                // Modal close buttons
+                closeModalBtn.addEventListener('click', closeModal);
+                cancelBtn.addEventListener('click', closeModal);
+                
+                // Click outside modal to close
+                window.addEventListener('click', function(e) {
+                    if (e.target === productModal) {
+                        closeModal();
+                    }
+                });
+                
+                // Image preview
+                productImageInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file && file.type.match('image.*')) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            productImagePreview.src = event.target.result;
+                            productImagePreview.style.display = 'block';
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        productImagePreview.style.display = 'none';
+                    }
+                });
+                
+                // Submit form
+                submitBtn.addEventListener('click', handleSubmit);
+                
+                // Delegated event listeners for dynamic buttons
+                productsTableBody.addEventListener('click', function(e) {
+                    const productId = e.target.closest('button')?.getAttribute('data-id');
+                    if (!productId) return;
+                    
+                    if (e.target.closest('.edit-btn')) {
+                        openEditModal(productId);
+                    } else if (e.target.closest('.delete-btn')) {
+                        deleteProduct(productId);
+                    } else if (e.target.closest('.featured-btn')) {
+                        toggleFeatured(productId);
+                    }
+                });
+            }
+            
+            // Open create modal
+            function openCreateModal() {
+                isEditMode = false;
+                modalTitle.textContent = 'Create New Place';
+                document.getElementById('submit-text').textContent = 'Create Place';
+                productForm.reset();
+                productImagePreview.style.display = 'none';
+                productIdInput.value = '';
+                productFeaturedInput.checked = false;
+                productModal.style.display = 'block';
+            }
+            
+            // Open edit modal
+            async function openEditModal(productId) {
+                try {
+                    const response = await fetch(`/get_product_details?id=${productId}`);
+                    if (!response.ok) throw new Error('Failed to load product');
+                    
+                    const product = await response.json();
+                    
+                    isEditMode = true;
+                    modalTitle.textContent = 'Edit Place';
+                    document.getElementById('submit-text').textContent = 'Save Changes';
+                    
+                    // Fill form with product data
+                    productIdInput.value = product.id;
+                    productNameInput.value = product.name;
+                    productDescInput.value = product.description || '';
+                    productCategoryInput.value = product.category || '';
+                    productFeaturedInput.checked = product.is_featured || false;
+                    
+                    // Show current image
+                    productImagePreview.src = product.image;
+                    productImagePreview.style.display = 'block';
+                    
+                    productModal.style.display = 'block';
+                } catch (error) {
+                    console.error('Error opening edit modal:', error);
+                    showAlert('Error loading product. Please try again.', 'error');
+                }
+            }
+            
+            // Close modal
+            function closeModal() {
+                productModal.style.display = 'none';
+            }
+            
+            // Handle form submission
+            async function handleSubmit() {
+                // Validate form
+                const name = productNameInput.value.trim();
+                const description = productDescInput.value.trim();
+                const category = productCategoryInput.value;
+                const imageFile = productImageInput.files[0];
+                const placeFile = productFileInput.files[0];
+                const isFeatured = productFeaturedInput.checked;
+                
+                if (!name) {
+                    showAlert('Please enter a place name', 'error');
+                    return;
+                }
+                
+                if (!category) {
+                    showAlert('Please select a category', 'error');
+                    return;
+                }
+                
+                if (!isEditMode && !imageFile) {
+                    showAlert('Please select a thumbnail image', 'error');
+                    return;
+                }
+                
+                if (!isEditMode && !placeFile) {
+                    showAlert('Please select a .rbxl file', 'error');
+                    return;
+                }
+                
+                if (placeFile && !placeFile.name.toLowerCase().endsWith('.rbxl')) {
+                    showAlert('Only .rbxl files are allowed', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading
+                submitBtn.disabled = true;
+                document.getElementById('submit-text').textContent = isEditMode ? 'Saving...' : 'Creating...';
+                document.getElementById('submit-spinner').style.display = 'inline-block';
+                
+                try {
+                    let imageResult = null;
+                    let fileResult = null;
+                    
+                    // 1. Upload image if provided (or in create mode)
+                    if (imageFile || !isEditMode) {
+                        const imageFormData = new FormData();
+                        imageFormData.append('image', imageFile || new File([], 'placeholder'));
+                        
+                        const imageResponse = await fetch('/upload_image', {
+                            method: 'POST',
+                            body: isEditMode && !imageFile ? null : imageFormData
+                        });
+                        
+                        if (!imageResponse.ok) throw new Error('Failed to upload image');
+                        
+                        imageResult = await imageResponse.json();
+                    }
+                    
+                    // 2. Upload file if provided (or in create mode)
+                    if (placeFile || !isEditMode) {
+                        const fileFormData = new FormData();
+                        fileFormData.append('file', placeFile || new File([], 'placeholder'));
+                        
+                        const fileResponse = await fetch('/upload_file', {
+                            method: 'POST',
+                            body: isEditMode && !placeFile ? null : fileFormData
+                        });
+                        
+                        if (!fileResponse.ok) throw new Error('Failed to upload file');
+                        
+                        fileResult = await fileResponse.json();
+                    }
+                    
+                    // 3. Prepare product data
+                    const productData = {
+                        name: name,
+                        description: description,
+                        category: category,
+                        is_featured: isFeatured
+                    };
+                    
+                    if (isEditMode) {
+                        productData.id = productIdInput.value;
+                        
+                        if (imageResult) {
+                            productData.image = '/uploads/' + imageResult.filename;
+                        }
+                        
+                        if (fileResult) {
+                            productData.file_path = fileResult.filepath;
+                            productData.original_file_name = fileResult.original_filename;
+                        }
+                        
+                        // Call update endpoint
+                        const updateResponse = await fetch('/update_product', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(productData)
+                        });
+                        
+                        if (!updateResponse.ok) throw new Error('Failed to update product');
+                    } else {
+                        // For create mode, we must have both image and file
+                        productData.image = '/uploads/' + imageResult.filename;
+                        productData.file_path = fileResult.filepath;
+                        productData.original_file_name = fileResult.original_filename;
+                        productData.file_type = 'application/octet-stream';
+                        
+                        // Call create endpoint
+                        const createResponse = await fetch('/create_product', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(productData)
+                        });
+                        
+                        if (!createResponse.ok) throw new Error('Failed to create product');
+                    }
+                    
+                    // Success - close modal and refresh
+                    closeModal();
+                    showAlert(`Product ${isEditMode ? 'updated' : 'created'} successfully!`, 'success');
+                    loadProducts();
+                    
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    showAlert('Error: ' + error.message, 'error');
+                } finally {
+                    // Re-enable button
+                    submitBtn.disabled = false;
+                    document.getElementById('submit-text').textContent = isEditMode ? 'Save Changes' : 'Create Place';
+                    document.getElementById('submit-spinner').style.display = 'none';
+                }
+            }
+            
+            // Delete product
+            async function deleteProduct(productId) {
+                if (!confirm('Are you sure you want to delete this product? This cannot be undone.')) {
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/delete_product', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: productId })
+                    });
+                    
+                    if (!response.ok) throw new Error('Failed to delete product');
+                    
+                    showAlert('Product deleted successfully!', 'success');
+                    loadProducts();
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            }
+            
+            // Toggle featured status
+            async function toggleFeatured(productId) {
+                try {
+                    const product = products.find(p => p.id === productId);
+                    if (!product) return;
+                    
+                    const response = await fetch('/update_product', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: productId,
+                            is_featured: !product.is_featured
+                        })
+                    });
+                    
+                    if (!response.ok) throw new Error('Failed to update featured status');
+                    
+                    showAlert('Featured status updated!', 'success');
+                    loadProducts();
+                } catch (error) {
+                    console.error('Error toggling featured status:', error);
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            }
+            
+            // Show alert message
+            function showAlert(message, type) {
+                alertMessage.innerHTML = `
+                    <div class="alert alert-${type}">
+                        ${message}
+                    </div>
+                `;
+                setTimeout(() => {
+                    alertMessage.innerHTML = '';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
